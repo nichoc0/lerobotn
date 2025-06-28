@@ -136,8 +136,8 @@ print(f"{dataset[0]['action'].shape=}\n")  # (64, c)
 # PyTorch datasets.
 dataloader = torch.utils.data.DataLoader(
     dataset,
-    num_workers=0,
-    batch_size=32,
+    num_workers=0, # 8 
+    batch_size=32, 
     shuffle=True,
 )
 
