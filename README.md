@@ -417,5 +417,10 @@ Additionally, if you are using any of the particular policy architecture, pretra
 python lerobot/scripts/control_robot.py \
   --robot.type=so101_bimanual \
   --control.type=record \
-  --control.num_episodes=100 \
-  --control.episode_time_s=30
+  --control.repo_id="my_username/so101_bimanual_test" \
+  --control.single_task="Test bimanual robot setup" \
+  --control.num_episodes=3 \
+  --control.episode_time_s=10 \
+  --control.warmup_time_s=5 \
+  --control.reset_time_s=5 \
+  --control.push_to_hub=false
