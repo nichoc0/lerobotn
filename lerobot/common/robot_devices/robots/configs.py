@@ -490,6 +490,103 @@ class So101RobotConfig(ManipulatorRobotConfig):
     mock: bool = False
 
 
+@RobotConfig.register_subclass("so101_bimanual")
+@dataclass
+class So101BimanualRobotConfig(ManipulatorRobotConfig):
+    """
+    Configuration for a bimanual (two-armed) SO-101 robot.
+    You will need to update the port for each of the four motor buses.
+    """
+
+    calibration_dir: str = ".cache/calibration/so101_bimanual"
+    max_relative_target: int | None = None
+
+    leader_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "left": FeetechMotorsBusConfig(
+                port="/dev/tty.usbmodem_leader_left",  # update to the thingy
+                motors={
+                    "shoulder_pan": [1, "sts3215"],
+                    "shoulder_lift": [2, "sts3215"],
+                    "elbow_flex": [3, "sts3215"],
+                    "wrist_flex": [4, "sts3215"],
+                    "wrist_roll": [5, "sts3215"],
+                    "gripper": [6, "sts3215"],
+                },
+            ),
+            "right": FeetechMotorsBusConfig(
+                port="/dev/tty.usbmodem_leader_right",  # update to the thingy
+                motors={
+                    "shoulder_pan": [1, "sts3215"],
+                    "shoulder_lift": [2, "sts3215"],
+                    "elbow_flex": [3, "sts3215"],
+                    "wrist_flex": [4, "sts3215"],
+                    "wrist_roll": [5, "sts3215"],
+                    "gripper": [6, "sts3215"],
+                },
+            ),
+        }
+    )
+
+    follower_arms: dict[str, MotorsBusConfig] = field(
+        default_factory=lambda: {
+            "left": FeetechMotorsBusConfig(
+                port="/dev/tty.usbmodem_follower_left",  # update to the thingy
+                motors={
+                    "shoulder_pan": [1, "sts3215"],
+                    "shoulder_lift": [2, "sts3215"],
+                    "elbow_flex": [3, "sts3215"],
+                    "wrist_flex": [4, "sts3215"],
+                    "wrist_roll": [5, "sts3215"],
+                    "gripper": [6, "sts3215"],
+                },
+            ),
+            "right": FeetechMotorsBusConfig(
+                port="/dev/tty.usbmodem_follower_right",  # update to the thingy
+                motors={
+                    "shoulder_pan": [1, "sts3215"],
+                    "shoulder_lift": [2, "sts3215"],
+                    "elbow_flex": [3, "sts3215"],
+                    "wrist_flex": [4, "sts3215"],
+                    "wrist_roll": [5, "sts3215"],
+                    "gripper": [6, "sts3215"],
+                },
+            ),
+        }
+    )
+
+    cameras: dict[str, CameraConfig] = field(
+        default_factory=lambda: {
+            "front": OpenCVCameraConfig(
+                camera_index=0,  # UPDATE THIS
+                fps=30,
+                width=640,
+                height=480,
+            ),
+            "top": OpenCVCameraConfig(
+                camera_index=1,  # UPDATE THIS
+                fps=30,
+                width=640,
+                height=480,
+            ),
+            "left_wrist": OpenCVCameraConfig(
+                camera_index=2,  # UPDATE THIS
+                fps=30,
+                width=640,
+                height=480,
+            ),
+            "right_wrist": OpenCVCameraConfig(
+                camera_index=3,  # UPDATE THIS
+                fps=30,
+                width=640,
+                height=480,
+            ),
+        }
+    )
+
+    mock: bool = False
+
+
 @RobotConfig.register_subclass("so100")
 @dataclass
 class So100RobotConfig(ManipulatorRobotConfig):
