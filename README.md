@@ -411,3 +411,11 @@ Additionally, if you are using any of the particular policy architecture, pretra
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=huggingface/lerobot&type=Timeline)](https://star-history.com/#huggingface/lerobot&Timeline)
+
+
+
+python lerobot/scripts/control_robot.py \
+  --robot.type=so101_bimanual \
+  --control.type=record \
+  --control.num_episodes=100 \
+  --control.episode_time_s=30
