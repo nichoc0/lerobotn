@@ -504,7 +504,7 @@ class So101BimanualRobotConfig(ManipulatorRobotConfig):
     leader_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "left": FeetechMotorsBusConfig(
-                port="/dev/tty.usbmodem_leader_left",  # update to the thingy
+                port="/dev/ttyACM0",  # update to the thingy
                 motors={
                     "shoulder_pan": [1, "sts3215"],
                     "shoulder_lift": [2, "sts3215"],
@@ -515,7 +515,7 @@ class So101BimanualRobotConfig(ManipulatorRobotConfig):
                 },
             ),
             "right": FeetechMotorsBusConfig(
-                port="/dev/tty.usbmodem_leader_right",  # update to the thingy
+                port="/dev/ttyUSB0",  # update to the thingy
                 motors={
                     "shoulder_pan": [1, "sts3215"],
                     "shoulder_lift": [2, "sts3215"],
@@ -531,7 +531,7 @@ class So101BimanualRobotConfig(ManipulatorRobotConfig):
     follower_arms: dict[str, MotorsBusConfig] = field(
         default_factory=lambda: {
             "left": FeetechMotorsBusConfig(
-                port="/dev/tty.usbmodem_follower_left",  # update to the thingy
+                port="/dev/ttyACM1",  # update to the thingy
                 motors={
                     "shoulder_pan": [1, "sts3215"],
                     "shoulder_lift": [2, "sts3215"],
@@ -542,7 +542,7 @@ class So101BimanualRobotConfig(ManipulatorRobotConfig):
                 },
             ),
             "right": FeetechMotorsBusConfig(
-                port="/dev/tty.usbmodem_follower_right",  # update to the thingy
+                port="/dev/ttyACM2",  # update to the thingy
                 motors={
                     "shoulder_pan": [1, "sts3215"],
                     "shoulder_lift": [2, "sts3215"],
@@ -558,25 +558,25 @@ class So101BimanualRobotConfig(ManipulatorRobotConfig):
     cameras: dict[str, CameraConfig] = field(
         default_factory=lambda: {
             "front": OpenCVCameraConfig(
-                camera_index=0,  # UPDATE THIS
+                camera_index=0,  #update thingy
                 fps=30,
                 width=640,
                 height=480,
             ),
             "top": OpenCVCameraConfig(
-                camera_index=1,  # UPDATE THIS
+                camera_index=1,  # update thingy
                 fps=30,
                 width=640,
                 height=480,
             ),
             "left_wrist": OpenCVCameraConfig(
-                camera_index=2,  # UPDATE THIS
+                camera_index=2,  # update thingy
                 fps=30,
                 width=640,
                 height=480,
             ),
             "right_wrist": OpenCVCameraConfig(
-                camera_index=3,  # UPDATE THIS
+                camera_index=3,  # update thingy
                 fps=30,
                 width=640,
                 height=480,
