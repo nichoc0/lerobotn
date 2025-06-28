@@ -241,9 +241,13 @@ class ManipulatorRobot:
             print(f"Connecting {name} leader arm.")
             self.leader_arms[name].connect()
 
+        # Import TorqueMode based on robot type
         if self.robot_type in ["koch", "koch_bimanual", "aloha"]:
             from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
-        elif self.robot_type in ["so100", "so101", "moss", "lekiwi"]:
+        elif self.robot_type in ["so100", "so101", "so101_bimanual", "moss", "lekiwi"]:
+            from lerobot.common.robot_devices.motors.feetech import TorqueMode
+        else:
+            # Default to feetech for unknown robot types
             from lerobot.common.robot_devices.motors.feetech import TorqueMode
 
         # We assume that at connection time, arms are in a rest position, and torque can
@@ -260,7 +264,7 @@ class ManipulatorRobot:
             self.set_koch_robot_preset()
         elif self.robot_type == "aloha":
             self.set_aloha_robot_preset()
-        elif self.robot_type in ["so100", "so101", "moss", "lekiwi"]:
+        elif self.robot_type in ["so100", "so101", "so101_bimanual", "moss", "lekiwi"]:
             self.set_so100_robot_preset()
 
         # Enable torque on all motors of the follower arms
@@ -302,9 +306,18 @@ class ManipulatorRobot:
             arm_calib_path = self.calibration_dir / f"{arm_id}.json"
 
             if arm_calib_path.exists():
-                with open(arm_calib_path) as f:
-                    calibration = json.load(f)
+                try:
+                    with open(arm_calib_path) as f:
+                        calibration = json.load(f)
+                except (json.JSONDecodeError, ValueError) as e:
+                    print(f"Corrupted calibration file '{arm_calib_path}': {e}")
+                    print(f"Removing corrupted file and running calibration again...")
+                    arm_calib_path.unlink()
+                    calibration = None
             else:
+                calibration = None
+
+            if calibration is None:
                 # TODO(rcadene): display a warning in __init__ if calibration file not available
                 print(f"Missing calibration file '{arm_calib_path}'")
 
@@ -313,7 +326,7 @@ class ManipulatorRobot:
 
                     calibration = run_arm_calibration(arm, self.robot_type, name, arm_type)
 
-                elif self.robot_type in ["so100", "so101", "moss", "lekiwi"]:
+                elif self.robot_type in ["so100", "so101", "so101_bimanual", "moss", "lekiwi"]:
                     from lerobot.common.robot_devices.robots.feetech_calibration import (
                         run_arm_manual_calibration,
                     )
@@ -336,6 +349,7 @@ class ManipulatorRobot:
 
     def set_koch_robot_preset(self):
         def set_operating_mode_(arm):
+            # Import TorqueMode for dynamixel (Koch uses dynamixel motors)
             from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
 
             if (arm.read("Torque_Enable") != TorqueMode.DISABLED.value).any():

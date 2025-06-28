@@ -5,7 +5,7 @@ from lerobot.common.robot_devices.robots.utils import (
     make_robot_from_config,
 )
 
-from .config import (
+from .configs import (
     AlohaRobotConfig,
     KochRobotConfig,
     KochBimanualRobotConfig,
