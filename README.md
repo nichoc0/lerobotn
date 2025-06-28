@@ -424,3 +424,9 @@ python lerobot/scripts/control_robot.py \
   --control.warmup_time_s=5 \
   --control.reset_time_s=5 \
   --control.push_to_hub=false
+
+
+python lerobot/scripts/control_robot.py \
+  --robot.type=so101_bimanual \
+  --control.type=calibrate \
+  --control.arms='["left_leader", "right_leader", "left_follower", "right_follower"]'
